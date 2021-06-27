@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title%} Top Page {% endblock%}
+
+{% block content%}
+<h1 id="top">掲示板{{ user_name }}</h1>
+
+<div class="row">
+    <div class="col-md-6 offset-md-5">
+        {% for post in posts %}
+        <div class="goods">
+            <p>商品{{ post.id }}</p>
+
+            <p>
+                {{ post.content }}
+            </p>
+
+            <form action="delete" method="POST">
+                <input type="hidden" value="{{ post.id }}" name="id">
+                <input type="submit" value="Delete">
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
