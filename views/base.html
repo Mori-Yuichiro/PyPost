@@ -41,27 +41,60 @@
             margin: 20px;
             width: 500px;
         }
+
+        #clock {
+            color: white;
+        }
     </style>
+
+    <script type="text/javascript">
+        let clockdisp = null;
+        let timeId = -1;
+
+        //時計表示開始
+        const startClock = () => {
+            timeId = -1; //タイマーID初期化
+            clockdisp = document.getElementById("clock");
+            updClock(); //時間更新
+        }
+
+        const zeroPad = (padValue) => {
+            return ((padValue < 10) ? "0" : "") + padValue;
+        }
+
+        const updClock = () => {
+            const nowDate = new Date();
+
+            //その時刻のミリ秒を取得し、次の秒までのミリ秒を算出
+            const updTime = (1000 - nowDate.getMilliseconds() + 5) //5msの誤差
+
+            clockdisp.innerHTML = 
+                zeroPad(nowDate.getHours())
+                + ":" + zeroPad(nowDate.getMinutes())
+                + ":" + zeroPad(nowDate.getSeconds())
+            ;
+            timeId = setTimeout(updClock, updTime);
+        };
+    </script>
 
 </head>
 
-<body>
+<body onload="startClock();">
     <!-- Nav Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="/top">PyPost</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="/top">Home</a>
                     <a class="nav-link" href="/post">Post</a>
-                    <a class="nav-link" href="#">Pricing</a>
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </div>
             </div>
+
+            <div id="clock"></div>
         </div>
     </nav>
 
