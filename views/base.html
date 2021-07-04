@@ -42,6 +42,7 @@
             width: 500px;
         }
 
+
         #clock {
             color: white;
         }
@@ -68,11 +69,11 @@
             //その時刻のミリ秒を取得し、次の秒までのミリ秒を算出
             const updTime = (1000 - nowDate.getMilliseconds() + 5) //5msの誤差
 
-            clockdisp.innerHTML = 
+            clockdisp.innerHTML =
                 zeroPad(nowDate.getHours())
                 + ":" + zeroPad(nowDate.getMinutes())
                 + ":" + zeroPad(nowDate.getSeconds())
-            ;
+                ;
             timeId = setTimeout(updClock, updTime);
         };
     </script>
@@ -83,20 +84,29 @@
     <!-- Nav Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/top">PyPost</a>
+            <a class="navbar-brand" href="/">PyPost</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="/post">Post</a>
+                    <a id="logout" class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </div>
             </div>
 
             <div id="clock"></div>
         </div>
     </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
     <div class="container">
         {% block content %}

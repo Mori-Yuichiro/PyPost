@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title%} Register {% endblock%}
+
+{% block content%}
+<form method="POST">
+    <div>
+        <p class="form-name">名前</p>
+        <input type="text" name="username">
+    </div>
+
+    <div>
+        <p class="form-name">パスワード</p>
+        <input type="password" name="password">
+    </div>
+
+    <button type="submit" class="button">Submit</button>
+</form>
+
+<style>
+    .form-name {
+        margin-bottom: 0px;
+    }
+
+    .button {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
