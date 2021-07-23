@@ -4,7 +4,10 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User, Post
 from app import app
 
-
+#
+#User
+#
+#Register user
 @app.route('/', methods=["GET", "POST"])
 def index():
     # トップページを表示
@@ -35,6 +38,7 @@ def index():
             app.logger.info(e.args)
             return redirect(url_for('index'))
 
+#Login
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -58,6 +62,22 @@ def login():
             flash('ログインに失敗しました')
             return redirect(url_for('login'))
 
+@app.route('/deluser', methods=["POST"])
+@login_required
+def delUser():
+    if request.method == 'POST':
+        app.logger.info('ユーザー削除')
+        #ユーザー情報を取得
+        id = request.form.get('user_id')
+        user = User.query.filter_by(id=id).first()
+        app.logger.info('ユーザー：' + user.name)
+        User.delUser(user)
+        app.logger.info('ユーザー削除完了')
+
+        return redirect(url_for('index'))
+
+
+#Top page
 @app.route('/top', methods=['GET'])
 @login_required
 def toppage():
@@ -68,9 +88,10 @@ def toppage():
     #投稿情報取得
     posts = User.query.filter_by(name=current_user.name, password=current_user.password).first().posts
 
-    return render_template('top.html', user_name=user.name, posts=posts)
+    return render_template('top.html', user_id=user.id, user_name=user.name, posts=posts)
 
 
+#Logout
 @app.route('/logout')
 @login_required
 def logout():
@@ -81,7 +102,7 @@ def logout():
 
 
 #
-#投稿
+#Post
 #
 @app.route('/post', methods=["GET", "POST"])
 @login_required

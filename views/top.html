@@ -4,6 +4,10 @@
 
 {% block content%}
 <h1 id="top">掲示板{{ user_name }}</h1>
+<form action="deluser" method="POST">
+    <input type="hidden" name="user_id" value="{{ user_id }}" />
+    <input type="submit" value="ユーザ情報削除" />
+</form>
 
 <div class="row">
     <div class="col-md-6 offset-md-5">

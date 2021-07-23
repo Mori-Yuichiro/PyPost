@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(length=20), nullable=False, unique=True)
     password = db.Column(db.String(length=20), nullable=False, unique=True)
-    posts = db.relationship('Post', backref='user', lazy=True)
+    posts = db.relationship('Post', backref='user', lazy=True, cascade='delete')
 
 
     def __init__(self, username, password):
@@ -24,8 +24,14 @@ class User(UserMixin, db.Model):
     def __repr__(self) -> str:
         return f'User {self.name}'
 
+    #Register user function
     def save(user_data):
         db.session.add(user_data)
+        db.session.commit()
+
+    #Delete user information
+    def delUser(user_data):
+        db.session.delete(user_data)
         db.session.commit()
 
 #投稿用のクラス
